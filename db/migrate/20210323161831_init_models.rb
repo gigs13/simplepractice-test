@@ -6,14 +6,14 @@ class InitModels < ActiveRecord::Migration[6.0]
     end
 
     create_table :patients do |t|
-      t.references :doctor
+      t.references :doctor, foreign_key: true
       t.string :name, null: false
       t.timestamps
     end
 
     create_table :appointments do |t|
-      t.references :doctor
-      t.references :patient
+      t.references :doctor, foreign_key: true
+      t.references :patient, foreign_key: true
 
       t.timestamps
     end
