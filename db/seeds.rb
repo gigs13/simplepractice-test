@@ -1,5 +1,32 @@
-# TODO: Seed the database according to the following requirements:
-# - There should be 10 Doctors with unique names
-# - Each doctor should have 10 patients with unique names
-# - Each patient should have 10 appointments (5 in the past, 5 in the future)
-#   - Each appointment should be 50 minutes in duration
+# db/seeds.rb
+
+require 'faker'
+
+# Borra todos los datos existentes 
+Doctor.destroy_all
+Patient.destroy_all
+Appointment.destroy_all
+
+# Crea doctores
+10.times do
+  Doctor.create!(
+    name: Faker::Name.name
+  )
+end
+
+# Crea pacientes
+10.times do
+  Patient.create!(
+    name: Faker::Name.name,
+    doctor: Doctor.order('RANDOM()').first # Asigna un doctor aleatorio
+  )
+end
+
+# Crea citas
+10.times do
+  Appointment.create!(
+    doctor: Doctor.order('RANDOM()').first, # Asigna un doctor aleatorio
+    patient: Patient.order('RANDOM()').first, # Asigna un paciente aleatorio
+    start_time: Faker::Time.forward(days: 23, period: :morning) # Hora de inicio aleatoria
+  )
+end
